@@ -25,22 +25,42 @@ passport.use(
   //passport callback function
   console.log('passport callback function fired');
   console.log(profile);
-  User.findOne({googleId:profile.id}).then((currentUser)=>{
-    if(currentUser){
-      console.log('Already exists');
-      done(null,currentUser);
-    }
-    else{
-      new User({
-        username:profile.displayName,
-        googleId:profile.id,
-        email:profile.emails[0]
-      }).save().then((newUser)=>{
-        console.log(newUser);
-        done(null,newUser);
-      });
-    }
-  });
+  console.log("Access: "+accessToken);
+  console.log("Refresh: "+refreshToken);
+  // User.findOne({googleId:profile.id}).then((err,currentUser)=>{
+  //   console.log('looking for user')
+  //   if(currentUser){
+  //     console.log('Already exists');
+  //     done(err,currentUser);
+  //   }
+  //   else{
+  //     new User({
+  //       username:profile.displayName,
+  //       googleId:profile.id,
+  //       email:profile.emails[0]
+  //     }).save().then((newUser)=>{
+  //       console.log(newUser);
+  //       done(err,newUser);
+  //     });
+  //   }
+  // });
+//  done(null,profile);
+User.findOne({googleId:profile.id}).then((currentUser)=>{
+  if(currentUser){
+    console.log('Already exists');
+    done(null,currentUser);
+  }
+  else{
+    new User({
+      username:profile.displayName,
+      googleId:profile.id,
+      email:profile.emails[0]
+    }).save().then((newUser)=>{
+      console.log(newUser);
+      done(null,newUser);
+    });
+  }
+});
 })
 );
 
@@ -53,6 +73,7 @@ passport.use(
  },(accessToken,refreshToken,profile,done)=>{
    console.log('passport callback function fired');
    console.log(profile);
+   done(null,profile);
    User.findOne({facebookId:profile.id}).then((currentUser)=>{
      if(currentUser){
        console.log('Already exists');

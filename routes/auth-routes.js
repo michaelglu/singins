@@ -18,12 +18,15 @@ router.get('/google',passport.authenticate('google',{
 
 //callback route google
 router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
-  res.send('you reached callback url');
+  console.log("______________________________________________________________");
+  //console.log(req.user);
+  res.send("DONE");
 });
 router.get('/facebook',passport.authenticate('facebook',{
-scope:['email']
+//scope:['email']
 }));
 router.get('/facebook/callback',passport.authenticate('facebook'),(req,res)=>{
+  console.log('callback fired');
   res.send('you reached callback url');
 });
 module.exports=router;
